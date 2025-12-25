@@ -111,7 +111,7 @@ export default function Home() {
   const faqs = [
     {
       question: "What is a hackathon?",
-      answer: "A hackathon is a weekend-long event where students come together to brainstorm, design, and build innovative solutions to real problems. It's not about 'hacking' in the security sense—it's about creative problem-solving and rapid prototyping."
+      answer: "A hackathon is a week-long coding event where students come together to brainstorm, design, and build innovative solutions to real problems. It's not about 'hacking' in the security sense—it's about creative problem-solving and bringing ideas to life with more time to develop meaningful MVPs."
     },
     {
       question: "Who can participate?",
@@ -119,7 +119,7 @@ export default function Home() {
     },
     {
       question: "Do I need to know how to code?",
-      answer: "Not at all! Teams need designers, project managers, presenters, and creative thinkers just as much as they need coders. You'll learn a lot over the weekend, and we'll have workshops to help you get started."
+      answer: "Not at all! Teams need designers, project managers, presenters, and creative thinkers just as much as they need coders. You'll learn a lot throughout the week, and we'll have mentorship sessions and workshops to help you get started."
     },
     {
       question: "How do teams work?",
@@ -154,12 +154,43 @@ export default function Home() {
 
     setIsSubmitting(true);
     
-    // Simulate submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast.success("Registration submitted successfully!");
+    try {
+      // Submit to backend API (which handles Google Sheets submission)
+      const response = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          grade: formData.grade.trim(),
+          experience: formData.experience?.trim() || '',
+          idea: formData.idea?.trim() || '',
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Form submission failed');
+      }
+
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      toast.success("✅ Registration submitted! Check your email.");
+      console.log('✅ Form submitted successfully');
+      
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setFormData({ name: '', email: '', grade: '', experience: '', idea: '' });
+        setIsSubmitted(false);
+      }, 3000);
+      
+    } catch (error) {
+      setIsSubmitting(false);
+      toast.error("Error submitting form. Please try again.");
+      console.error('❌ Form submission error:', error);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -265,7 +296,7 @@ export default function Home() {
             transition={{ delay: 0.6 }}
             className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-12"
           >
-            One weekend. 60-80 students. Infinite possibilities.
+            One week. 60-80 students. Infinite possibilities.
             <br />
             Build apps that solve real campus problems.
           </motion.p>
@@ -353,7 +384,7 @@ export default function Home() {
                 GungaHacks is a student-run Phillips Academy hackathon designed to let contributors turn their web and mobile application ideas into real solutions for our school.
               </p>
               <p className="text-lg text-white/70 mb-6 leading-relaxed">
-                Over one weekend, 60–80 students will come together with their friends, form teams, and develop computer apps to solve problems they've seen around campus.
+                Over one week, 60–80 students will come together with their friends, form teams, and develop computer apps to solve problems they've seen around campus.
               </p>
               <p className="text-lg text-white/70 leading-relaxed">
                 Whether it's managing stress, building connections on a busy campus, or fixing outdated systems—if you've noticed a problem, you can build the solution.
@@ -372,7 +403,7 @@ export default function Home() {
                   </div>
                   <div>
                     <div className="text-4xl font-bold text-[#44b8f3]">1</div>
-                    <div className="text-white/60">Weekend</div>
+                    <div className="text-white/60">Week</div>
                   </div>
                   <div>
                     <div className="text-4xl font-bold text-[#44b8f3]">2-4</div>
@@ -403,7 +434,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: Calendar, title: "When", desc: "Spring 2026", sub: "One Weekend" },
+              { icon: Calendar, title: "When", desc: "Spring 2026", sub: "One Week" },
               { icon: Users, title: "Who", desc: "60-80 Students", sub: "PA Students Only" },
               { icon: Trophy, title: "Prizes", desc: "$400 Worth", sub: "Tech & Tools" },
               { icon: Zap, title: "Format", desc: "Teams of 2-4", sub: "Build & Present" }
@@ -452,7 +483,7 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <Card className="bg-gradient-to-br from-[#0031A7]/30 to-[#0031A7]/10 border-[#44b8f3]/30 h-full hover:border-[#44b8f3]/60 transition-all">
+              <Card className="bg-white/5 border-white/10 h-full hover:bg-white/10 transition-all">
                 <CardContent className="p-8">
                   <div className="w-14 h-14 rounded-xl bg-[#44b8f3]/20 flex items-center justify-center mb-4">
                     <Trophy className="w-7 h-7 text-[#44b8f3]" />
@@ -485,7 +516,7 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <Card className="bg-gradient-to-br from-[#44b8f3]/20 to-[#44b8f3]/5 border-[#44b8f3]/30 h-full hover:border-[#44b8f3]/60 transition-all">
+              <Card className="bg-white/5 border-white/10 h-full hover:bg-white/10 transition-all">
                 <CardContent className="p-8">
                   <div className="w-14 h-14 rounded-xl bg-[#44b8f3]/20 flex items-center justify-center mb-4">
                     <Zap className="w-7 h-7 text-[#44b8f3]" />

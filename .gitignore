@@ -7,3 +7,5 @@ dist
 .DS_Store
 .vscode/launch.json
 .vscode/extensions.json
+.vercel
+.env*.local
