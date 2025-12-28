@@ -171,8 +171,9 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Form submission failed');
+        const errorData = await response.json();
+        console.error('❌ API Error:', errorData);
+        throw new Error(errorData.error || 'Form submission failed');
       }
 
       setIsSubmitting(false);
@@ -659,11 +660,11 @@ export default function Home() {
                       className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
                     >
                       <option value="" className="bg-[#0a0a1a]">Select your grade</option>
-                      <option value="9" className="bg-[#0a0a1a]">9th Grade (Junior)</option>
-                      <option value="10" className="bg-[#0a0a1a]">10th Grade (Lower)</option>
-                      <option value="11" className="bg-[#0a0a1a]">11th Grade (Upper)</option>
-                      <option value="12" className="bg-[#0a0a1a]">12th Grade (Senior)</option>
-                      <option value="pg" className="bg-[#0a0a1a]">Post-Graduate</option>
+                      <option value="9th" className="bg-[#0a0a1a]">9th Grade (Junior)</option>
+                      <option value="10th" className="bg-[#0a0a1a]">10th Grade (Lower)</option>
+                      <option value="11th" className="bg-[#0a0a1a]">11th Grade (Upper)</option>
+                      <option value="12th" className="bg-[#0a0a1a]">12th Grade (Senior)</option>
+                      <option value="PG" className="bg-[#0a0a1a]">Post-Graduate</option>
                     </select>
                   </div>
                 </div>
@@ -680,10 +681,10 @@ export default function Home() {
                       className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
                     >
                       <option value="" className="bg-[#0a0a1a]">Select your experience level</option>
-                      <option value="none" className="bg-[#0a0a1a]">No experience (that's okay!)</option>
-                      <option value="beginner" className="bg-[#0a0a1a]">Beginner (some coding classes)</option>
-                      <option value="intermediate" className="bg-[#0a0a1a]">Intermediate (built a few projects)</option>
-                      <option value="advanced" className="bg-[#0a0a1a]">Advanced (comfortable building apps)</option>
+                      <option value="None" className="bg-[#0a0a1a]">No experience (that's okay!)</option>
+                      <option value="Beginner" className="bg-[#0a0a1a]">Beginner (some coding classes)</option>
+                      <option value="Intermediate" className="bg-[#0a0a1a]">Intermediate (built a few projects)</option>
+                      <option value="Advanced" className="bg-[#0a0a1a]">Advanced (comfortable building apps)</option>
                     </select>
                   </div>
                 </div>

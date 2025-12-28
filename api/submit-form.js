@@ -1,46 +1,8 @@
-import { google } from 'googleapis';
-import dotenv from 'dotenv';
-
-// Load .env.local for local development
-dotenv.config({ path: '.env.local' });
-
-const sheets = google.sheets('v4');
-
-function getMissingEnvVars() {
-  const required = ['GOOGLE_PROJECT_ID', 'GOOGLE_PRIVATE_KEY', 'GOOGLE_CLIENT_EMAIL', 'GOOGLE_SHEET_ID'];
-  return required.filter((k) => !process.env[k]);
-}
-
 export default async function handler(req, res) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
-  // Quick environment validation to give actionable errors
-  const missing = getMissingEnvVars();
-  if (missing.length > 0) {
-    console.error('Missing required environment variables:', missing);
-    return res.status(500).json({ error: 'Missing environment variables', missing });
-  }
-
-  // Parse private key: handle both "literal\n" in .env.local and real newlines
-  const privateKeyStr = process.env.GOOGLE_PRIVATE_KEY;
-  const privateKey = privateKeyStr.includes('\\n') 
-    ? privateKeyStr.replace(/\\n/g, '\n')
-    : privateKeyStr;
-
-  // Build Google auth with explicit credentials (not relying on default credentials)
-  const auth = new google.auth.GoogleAuth({
-    projectId: process.env.GOOGLE_PROJECT_ID,
-    credentials: {
-      type: 'service_account',
-      project_id: process.env.GOOGLE_PROJECT_ID,
-      client_email: process.env.GOOGLE_CLIENT_EMAIL,
-      private_key: privateKey,
-    },
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-  });
 
   try {
     const { name, email, grade, experience, idea } = req.body;
@@ -50,40 +12,43 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Get the client for API requests
-    const authClient = await auth.getClient();
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeuY2t06KBrPeKs6zwaXjMjEk4qIXxjoCOiLm71Kw8UgXBq5A/formResponse';
 
-    // Your Google Sheet ID (from the form responses sheet)
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    const formData = new URLSearchParams();
+    formData.append('entry.1286670390', name);
+    formData.append('entry.1959045542', email);
+    formData.append('entry.990426861', grade);
+    formData.append('entry.533525692', experience || '');
+    formData.append('entry.344596077', idea || '');
 
-    // Append the row to your sheet
-    await sheets.spreadsheets.values.append(
-      {
-        spreadsheetId,
-        range: 'Form Responses 1!A:E', // Adjust range if needed
-        valueInputOption: 'USER_ENTERED',
-        requestBody: {
-          values: [
-            [
-              new Date().toLocaleString(), // Timestamp
-              name,
-              email,
-              grade,
-              experience || '',
-              idea || '',
-            ],
-          ],
-        },
+    console.log('Submitting to Google Forms:', formData.toString());
+
+    const response = await fetch(GOOGLE_FORM_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      { auth: authClient }
-    );
-
-    return res.status(200).json({
-      success: true,
-      message: 'Form submitted successfully',
+      body: formData.toString(),
     });
+
+    const responseText = await response.text();
+    console.log('Google Forms response status:', response.status);
+    console.log('Google Forms response text:', responseText);
+
+    if (response.status === 200) {
+      return res.status(200).json({
+        success: true,
+        message: 'Form submitted successfully',
+      });
+    } else {
+      console.error('Google Forms submission failed with status:', response.status);
+      return res.status(500).json({
+        error: 'Failed to submit form to Google',
+        details: responseText,
+      });
+    }
   } catch (error) {
-    console.error('Form submission error:', error);
+    console.error('Internal server error:', error);
     return res.status(500).json({
       error: 'Failed to submit form',
       details: error.message,
