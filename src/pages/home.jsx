@@ -91,7 +91,9 @@ export default function Home() {
     email: '',
     grade: '',
     experience: '',
-    idea: ''
+    idea: '',
+    teamSize: '',
+    hackathonIdeas: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -167,6 +169,8 @@ export default function Home() {
           grade: formData.grade.trim(),
           experience: formData.experience?.trim() || '',
           idea: formData.idea?.trim() || '',
+          teamSize: formData.teamSize?.trim() || '',
+          hackathonIdeas: formData.hackathonIdeas?.trim() || '',
         }),
       });
 
@@ -183,7 +187,7 @@ export default function Home() {
       
       // Reset form after 3 seconds
       setTimeout(() => {
-        setFormData({ name: '', email: '', grade: '', experience: '', idea: '' });
+        setFormData({ name: '', email: '', grade: '', experience: '', idea: '', teamSize: '', hackathonIdeas: '' });
         setIsSubmitted(false);
       }, 3000);
       
@@ -690,6 +694,26 @@ export default function Home() {
                 </div>
 
                 <div className="space-y-2">
+                  <Label htmlFor="teamSize" className="text-white">Team Size</Label>
+                  <div className="relative">
+                    <Users className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                    <select
+                      id="teamSize"
+                      name="teamSize"
+                      value={formData.teamSize}
+                      onChange={handleInputChange}
+                      className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
+                    >
+                      <option value="" className="bg-[#0a0a1a]">Select your team size</option>
+                      <option value="Just me (1 person)" className="bg-[#0a0a1a]">Just me (1 person)</option>
+                      <option value="2 people" className="bg-[#0a0a1a]">2 people</option>
+                      <option value="3 people" className="bg-[#0a0a1a]">3 people</option>
+                      <option value="4 people" className="bg-[#0a0a1a]">4 people</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="idea" className="text-white">Any project ideas? (Optional)</Label>
                   <div className="relative">
                     <MessageCircle className="absolute left-4 top-4 w-5 h-5 text-white/40" />
@@ -700,6 +724,21 @@ export default function Home() {
                       onChange={handleInputChange}
                       className="bg-white/10 border-white/20 text-white pl-12 min-h-[100px] rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] resize-none"
                       placeholder="What problems have you noticed on campus that you'd like to solve?"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="hackathonIdeas" className="text-white">General hackathon ideas? (Optional)</Label>
+                  <div className="relative">
+                    <Zap className="absolute left-4 top-4 w-5 h-5 text-white/40" />
+                    <Textarea
+                      id="hackathonIdeas"
+                      name="hackathonIdeas"
+                      value={formData.hackathonIdeas}
+                      onChange={handleInputChange}
+                      className="bg-white/10 border-white/20 text-white pl-12 min-h-[100px] rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] resize-none"
+                      placeholder="Any general ideas for the hackathon you want to share?"
                     />
                   </div>
                 </div>
