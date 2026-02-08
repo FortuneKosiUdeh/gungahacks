@@ -14,44 +14,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 
-const GorillaCharacter = ({ className = "" }) => (
-  <svg viewBox="0 0 200 220" className={className}>
-    {/* Body */}
-    <ellipse cx="100" cy="150" rx="60" ry="55" fill="#2d2d2d"/>
-    {/* Head */}
-    <circle cx="100" cy="75" r="50" fill="#3d3d3d"/>
-    {/* Face */}
-    <ellipse cx="100" cy="85" rx="30" ry="25" fill="#8B7355"/>
-    {/* Eyes */}
-    <ellipse cx="85" cy="70" rx="10" ry="12" fill="white"/>
-    <ellipse cx="115" cy="70" rx="10" ry="12" fill="white"/>
-    <circle cx="87" cy="72" r="5" fill="#0031A7"/>
-    <circle cx="117" cy="72" r="5" fill="#0031A7"/>
-    <circle cx="88" cy="70" r="2" fill="white"/>
-    <circle cx="118" cy="70" r="2" fill="white"/>
-    {/* Nose */}
-    <ellipse cx="100" cy="88" rx="12" ry="8" fill="#5c4a3a"/>
-    <circle cx="95" cy="88" r="3" fill="#3d3d3d"/>
-    <circle cx="105" cy="88" r="3" fill="#3d3d3d"/>
-    {/* Mouth - Smile */}
-    <path d="M 85 100 Q 100 115 115 100" stroke="#3d3d3d" strokeWidth="3" fill="none"/>
-    {/* Ears */}
-    <circle cx="48" cy="70" r="12" fill="#3d3d3d"/>
-    <circle cx="48" cy="70" r="7" fill="#8B7355"/>
-    <circle cx="152" cy="70" r="12" fill="#3d3d3d"/>
-    <circle cx="152" cy="70" r="7" fill="#8B7355"/>
-    {/* Arms */}
-    <ellipse cx="40" cy="140" rx="20" ry="40" fill="#2d2d2d"/>
-    <ellipse cx="160" cy="140" rx="20" ry="40" fill="#2d2d2d"/>
-    {/* Hands */}
-    <ellipse cx="35" cy="175" rx="12" ry="10" fill="#3d3d3d"/>
-    <ellipse cx="165" cy="175" rx="12" ry="10" fill="#3d3d3d"/>
-    {/* Chest */}
-    <ellipse cx="100" cy="145" rx="25" ry="20" fill="#4a4a4a"/>
-    {/* Eyebrows */}
-    <path d="M 75 55 Q 85 50 95 55" stroke="#2d2d2d" strokeWidth="4" fill="none"/>
-    <path d="M 105 55 Q 115 50 125 55" stroke="#2d2d2d" strokeWidth="4" fill="none"/>
-  </svg>
+const Logo = ({ className = "" }) => (
+  <img src="/gungahacks_logo.png" alt="GungaHacks Logo" className={className} />
 );
 
 const FloatingElement = ({ children, delay = 0, duration = 3 }) => (
@@ -91,9 +55,8 @@ export default function Home() {
     email: '',
     grade: '',
     experience: '',
-    idea: '',
     teamSize: '',
-    hackathonIdeas: ''
+    idea: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -125,7 +88,7 @@ export default function Home() {
     },
     {
       question: "How do teams work?",
-      answer: "Teams can have 2-4 members. You can come with a team already formed, or we'll help you find teammates at the event. Some of the best projects come from people who just met!"
+      answer: "You can come with a team already formed, or we'll help you find teammates at the event. Some of the best projects come from people who just met!"
     },
     {
       question: "What can I build?",
@@ -411,8 +374,8 @@ export default function Home() {
                     <div className="text-white/60">Week</div>
                   </div>
                   <div>
-                    <div className="text-4xl font-bold text-[#44b8f3]">2-4</div>
-                    <div className="text-white/60">Per Team</div>
+                    <div className="text-4xl font-bold text-[#44b8f3]">Any Size</div>
+                    <div className="text-white/60">Teams</div>
                   </div>
                   <div>
                     <div className="text-4xl font-bold text-[#44b8f3]">∞</div>
@@ -438,11 +401,11 @@ export default function Home() {
           </motion.h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
+            {[ 
               { icon: Calendar, title: "When", desc: "Spring 2026", sub: "One Week" },
               { icon: Users, title: "Who", desc: "60-80 Students", sub: "PA Students Only" },
-              { icon: Trophy, title: "Prizes", desc: "$400 Worth", sub: "Tech & Tools" },
-              { icon: Zap, title: "Format", desc: "Teams of 2-4", sub: "Build & Present" }
+              { icon: Trophy, title: "Prizes", desc: "$500 Worth", sub: "Tech & Tools" },
+              { icon: Zap, title: "Format", desc: "Build & Present", sub: "Join a Team" }
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -479,7 +442,7 @@ export default function Home() {
             Win Amazing <span className="text-[#44b8f3]">Prizes</span>
           </motion.h2>
           <p className="text-white/60 text-center mb-16 text-lg">
-            Over $400 worth of tech gear and learning resources
+            Over $500 worth of tech gear and learning resources
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -724,21 +687,6 @@ export default function Home() {
                       onChange={handleInputChange}
                       className="bg-white/10 border-white/20 text-white pl-12 min-h-[100px] rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] resize-none"
                       placeholder="What problems have you noticed on campus that you'd like to solve?"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="hackathonIdeas" className="text-white">General hackathon ideas? (Optional)</Label>
-                  <div className="relative">
-                    <Zap className="absolute left-4 top-4 w-5 h-5 text-white/40" />
-                    <Textarea
-                      id="hackathonIdeas"
-                      name="hackathonIdeas"
-                      value={formData.hackathonIdeas}
-                      onChange={handleInputChange}
-                      className="bg-white/10 border-white/20 text-white pl-12 min-h-[100px] rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] resize-none"
-                      placeholder="Any general ideas for the hackathon you want to share?"
                     />
                   </div>
                 </div>

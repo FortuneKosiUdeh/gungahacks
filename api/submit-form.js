@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, grade, experience, idea, teamSize, hackathonIdeas } = req.body;
+    const { name, email, grade, experience, idea, teamSize } = req.body;
 
     // Validate required fields
     if (!name || !email || !grade) {
@@ -18,10 +18,9 @@ export default async function handler(req, res) {
     formData.append('entry.1286670390', name);
     formData.append('entry.1959045542', email);
     formData.append('entry.990426861', grade);
-    formData.append('entry.533525692', experience || '');
-    formData.append('entry.1644260711', teamSize || '');
-    formData.append('entry.344596077', idea || '');
-    formData.append('entry.638841831', hackathonIdeas || '');
+    formData.append('entry.533525692', experience || 'None (That\'s completely fine)');
+    formData.append('entry.1644260711', teamSize || 'Just me (1 person)');
+    formData.append('entry.344596077', idea || 'idk maybe');
 
     console.log('Submitting to Google Forms:', formData.toString());
 
