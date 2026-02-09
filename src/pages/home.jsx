@@ -263,7 +263,7 @@ export default function Home() {
             transition={{ delay: 0.6 }}
             className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-12"
           >
-            One week. 60-80 students. Infinite possibilities.
+            One week. Infinite possibilities.
             <br />
             Build apps that solve real campus problems.
           </motion.p>
@@ -351,7 +351,7 @@ export default function Home() {
                 GungaHacks is a student-run Phillips Academy hackathon designed to let contributors turn their web and mobile application ideas into real solutions for our school.
               </p>
               <p className="text-lg text-white/70 mb-6 leading-relaxed">
-                Over one week, 60–80 students will come together with their friends, form teams, and develop computer apps to solve problems they've seen around campus.
+                Over one week, students will come together with their friends, form teams, and develop computer apps to solve problems they've seen around campus.
               </p>
               <p className="text-lg text-white/70 leading-relaxed">
                 Whether it's managing stress, building connections on a busy campus, or fixing outdated systems—if you've noticed a problem, you can build the solution.
@@ -367,8 +367,8 @@ export default function Home() {
                 </FloatingElement>
                 <div className="grid grid-cols-2 gap-6 text-center">
                   <div>
-                    <div className="text-4xl font-bold text-[#44b8f3]">60-80</div>
-                    <div className="text-white/60">Students</div>
+                    <div className="text-4xl font-bold text-[#44b8f3]">Many</div>
+                    <div className="text-white/60">Participants</div>
                   </div>
                   <div>
                     <div className="text-4xl font-bold text-[#44b8f3]">1</div>
@@ -404,7 +404,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[ 
               { icon: Calendar, title: "When", desc: "Spring 2026", sub: "One Week" },
-              { icon: Users, title: "Who", desc: "60-80 Students", sub: "PA Students Only" },
+              { icon: Users, title: "Who", desc: "All Students", sub: "PA Students Only" },
               { icon: Trophy, title: "Prizes", desc: "$500 Worth", sub: "Tech & Tools" },
               { icon: Zap, title: "Format", desc: "Up to 3 per team", sub: "Build & Present" }
             ].map((item, index) => (
@@ -603,7 +603,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                action="https://docs.google.com/forms/d/e/1FAIpQLSeuY2t06KBrPeKs6zwaXjMjEk4qIXxjoCOiLm71Kw8UgXBq5UgXBq5A/formResponse"
+                action="https://docs.google.com/forms/d/e/1FAIpQLSeuY2t06KBrPeKs6zwaXjMjEk4qIXxjoCOiLm71Kw8UgXBq5A/formResponse"
                 method="POST"
                 target="hidden_iframe"
                 encType="application/x-www-form-urlencoded"
@@ -656,11 +656,11 @@ export default function Home() {
                       required
                     >
                       <option value="" className="bg-[#0a0a1a]">Select your grade</option>
-                      <option value="9" className="bg-[#0a0a1a]">9th Grade (Junior)</option>
-                      <option value="10" className="bg-[#0a0a1a]">10th Grade (Lower)</option>
-                      <option value="11" className="bg-[#0a0a1a]">11th Grade (Upper)</option>
-                      <option value="12" className="bg-[#0a0a1a]">12th Grade (Senior)</option>
-                      <option value="pg" className="bg-[#0a0a1a]">Post-Graduate</option>
+                      <option value="9th Grade (Junior)" className="bg-[#0a0a1a]">9th Grade (Junior)</option>
+                      <option value="10th Grade (Lower)" className="bg-[#0a0a1a]">10th Grade (Lower)</option>
+                      <option value="11th Grade (Upper)" className="bg-[#0a0a1a]">11th Grade (Upper)</option>
+                      <option value="12th Grade (Senior)" className="bg-[#0a0a1a]">12th Grade (Senior)</option>
+                      <option value="Post-Graduate" className="bg-[#0a0a1a]">Post-Graduate</option>
                     </select>
                   </div>
                 </div>
@@ -677,10 +677,10 @@ export default function Home() {
                       className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
                     >
                       <option value="" className="bg-[#0a0a1a]">Select your experience level</option>
-                      <option value="none" className="bg-[#0a0a1a]">No experience (that's okay!)</option>
-                      <option value="beginner" className="bg-[#0a0a1a]">Beginner (some coding classes)</option>
-                      <option value="intermediate" className="bg-[#0a0a1a]">Intermediate (built a few projects)</option>
-                      <option value="advanced" className="bg-[#0a0a1a]">Advanced (comfortable building apps)</option>
+                      <option value="No experience (that's okay!)" className="bg-[#0a0a1a]">No experience (that's okay!)</option>
+                      <option value="Beginner (some coding classes)" className="bg-[#0a0a1a]">Beginner (some coding classes)</option>
+                      <option value="Intermediate (built a few projects)" className="bg-[#0a0a1a]">Intermediate (built a few projects)</option>
+                      <option value="Advanced (comfortable building apps)" className="bg-[#0a0a1a]">Advanced (comfortable building apps)</option>
                     </select>
                   </div>
                 </div>

@@ -4,7 +4,7 @@ A modern, production-ready React landing site for GungaHacks, a student-run hack
 
 ## Overview
 
-GungaHacks is a weekend-long hackathon event where 60-80 Phillips Academy students come together to build innovative web and mobile applications that solve real problems on campus. This is the official registration and marketing website built with modern web technologies.
+GungaHacks is a weekend-long hackathon event where Phillips Academy students come together to build innovative web and mobile applications that solve real problems on campus. This is the official registration and marketing website built with modern web technologies.
 
 ## Features
 

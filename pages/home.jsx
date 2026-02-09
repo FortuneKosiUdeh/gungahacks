@@ -265,7 +265,7 @@ export default function Home() {
             transition={{ delay: 0.6 }}
             className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-12"
           >
-            One weekend. 60-80 students. Infinite possibilities.
+            One weekend. Infinite possibilities.
             <br />
             Build apps that solve real campus problems.
           </motion.p>
@@ -353,7 +353,7 @@ export default function Home() {
                 GungaHacks is a student-run Phillips Academy hackathon designed to let contributors turn their web and mobile application ideas into real solutions for our school.
               </p>
               <p className="text-lg text-white/70 mb-6 leading-relaxed">
-                Over one weekend, 60–80 students will come together with their friends, form teams, and develop computer apps to solve problems they've seen around campus.
+                Over one weekend, students will come together with their friends, form teams, and develop computer apps to solve problems they've seen around campus.
               </p>
               <p className="text-lg text-white/70 leading-relaxed">
                 Whether it's managing stress, building connections on a busy campus, or fixing outdated systems—if you've noticed a problem, you can build the solution.
@@ -367,8 +367,8 @@ export default function Home() {
                 </FloatingElement>
                 <div className="grid grid-cols-2 gap-6 text-center">
                   <div>
-                    <div className="text-4xl font-bold text-[#44b8f3]">60-80</div>
-                    <div className="text-white/60">Students</div>
+                    <div className="text-4xl font-bold text-[#44b8f3]">Many</div>
+                    <div className="text-white/60">Participants</div>
                   </div>
                   <div>
                     <div className="text-4xl font-bold text-[#44b8f3]">1</div>
@@ -404,7 +404,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { icon: Calendar, title: "When", desc: "Spring 2026", sub: "One Weekend" },
-              { icon: Users, title: "Who", desc: "60-80 Students", sub: "PA Students Only" },
+              { icon: Users, title: "Who", desc: "All Students", sub: "PA Students Only" },
               { icon: Trophy, title: "Prizes", desc: "$400 Worth", sub: "Tech & Tools" },
               { icon: Zap, title: "Format", desc: "Teams of 2-4", sub: "Build & Present" }
             ].map((item, index) => (
@@ -582,6 +582,10 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
+                action="https://docs.google.com/forms/d/e/1FAIpQLSeuY2t06KBrPeKs6zwaXjMjEk4qIXxjoCOiLm71Kw8UgXBq5A/formResponse"
+                method="POST"
+                target="hidden_iframe"
+                encType="application/x-www-form-urlencoded"
                 onSubmit={handleSubmit}
                 className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 space-y-6"
               >
@@ -591,11 +595,12 @@ export default function Home() {
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                     <Input
                       id="name"
-                      name="name"
+                      name="entry.1286670390"
                       value={formData.name}
                       onChange={handleInputChange}
                       className="bg-white/10 border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3]"
                       placeholder="Your full name"
+                      required
                     />
                   </div>
                 </div>
@@ -606,12 +611,13 @@ export default function Home() {
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                     <Input
                       id="email"
-                      name="email"
+                      name="entry.1959045542"
                       type="email"
                       value={formData.email}
                       onChange={handleInputChange}
                       className="bg-white/10 border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3]"
                       placeholder="your.email@andover.edu"
+                      required
                     />
                   </div>
                 </div>
@@ -622,17 +628,18 @@ export default function Home() {
                     <School className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                     <select
                       id="grade"
-                      name="grade"
+                      name="entry.990426861"
                       value={formData.grade}
                       onChange={handleInputChange}
                       className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
+                      required
                     >
                       <option value="" className="bg-[#0a0a1a]">Select your grade</option>
-                      <option value="9" className="bg-[#0a0a1a]">9th Grade (Junior)</option>
-                      <option value="10" className="bg-[#0a0a1a]">10th Grade (Lower)</option>
-                      <option value="11" className="bg-[#0a0a1a]">11th Grade (Upper)</option>
-                      <option value="12" className="bg-[#0a0a1a]">12th Grade (Senior)</option>
-                      <option value="pg" className="bg-[#0a0a1a]">Post-Graduate</option>
+                      <option value="9th Grade (Junior)" className="bg-[#0a0a1a]">9th Grade (Junior)</option>
+                      <option value="10th Grade (Lower)" className="bg-[#0a0a1a]">10th Grade (Lower)</option>
+                      <option value="11th Grade (Upper)" className="bg-[#0a0a1a]">11th Grade (Upper)</option>
+                      <option value="12th Grade (Senior)" className="bg-[#0a0a1a]">12th Grade (Senior)</option>
+                      <option value="Post-Graduate" className="bg-[#0a0a1a]">Post-Graduate</option>
                     </select>
                   </div>
                 </div>
@@ -643,16 +650,35 @@ export default function Home() {
                     <Rocket className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                     <select
                       id="experience"
-                      name="experience"
+                      name="entry.533525692"
                       value={formData.experience}
                       onChange={handleInputChange}
                       className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
                     >
                       <option value="" className="bg-[#0a0a1a]">Select your experience level</option>
-                      <option value="none" className="bg-[#0a0a1a]">No experience (that's okay!)</option>
-                      <option value="beginner" className="bg-[#0a0a1a]">Beginner (some coding classes)</option>
-                      <option value="intermediate" className="bg-[#0a0a1a]">Intermediate (built a few projects)</option>
-                      <option value="advanced" className="bg-[#0a0a1a]">Advanced (comfortable building apps)</option>
+                      <option value="No experience (that's okay!)" className="bg-[#0a0a1a]">No experience (that's okay!)</option>
+                      <option value="Beginner (some coding classes)" className="bg-[#0a0a1a]">Beginner (some coding classes)</option>
+                      <option value="Intermediate (built a few projects)" className="bg-[#0a0a1a]">Intermediate (built a few projects)</option>
+                      <option value="Advanced (comfortable building apps)" className="bg-[#0a0a1a]">Advanced (comfortable building apps)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="teamSize" className="text-white">Team Size</Label>
+                  <div className="relative">
+                    <Users className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                    <select
+                      id="teamSize"
+                      name="entry.1644260711"
+                      value={formData.teamSize}
+                      onChange={handleInputChange}
+                      className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
+                    >
+                      <option value="" className="bg-[#0a0a1a]">Select your team size</option>
+                      <option value="Just me (1 person)" className="bg-[#0a0a1a]">Just me (1 person)</option>
+                      <option value="2 people" className="bg-[#0a0a1a]">2 people</option>
+                      <option value="3 people" className="bg-[#0a0a1a]">3 people</option>
                     </select>
                   </div>
                 </div>
@@ -663,7 +689,7 @@ export default function Home() {
                     <MessageCircle className="absolute left-4 top-4 w-5 h-5 text-white/40" />
                     <Textarea
                       id="idea"
-                      name="idea"
+                      name="entry.344596077"
                       value={formData.idea}
                       onChange={handleInputChange}
                       className="bg-white/10 border-white/20 text-white pl-12 min-h-[100px] rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] resize-none"
