@@ -12,7 +12,7 @@ GungaHacks is a weekend-long hackathon event where 60-80 Phillips Academy studen
 - **Inspiring Questions** - Scroll-triggered reveal animations that engage visitors
 - **About Section** - Information about the hackathon event
 - **Event Details** - Key facts about when, who, format, and prizes
-- **Prizes Showcase** - Information about $400+ in prizes and recognition
+- **Prizes Showcase** - Information about $500+ in prizes and recognition
 - **FAQ Section** - Accordion-based frequently asked questions
 - **Registration Form** - Client-side validated registration with success states
 - **Responsive Design** - Full mobile, tablet, and desktop support

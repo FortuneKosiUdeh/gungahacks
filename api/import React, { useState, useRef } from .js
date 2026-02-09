@@ -1,40 +1,62 @@
 import React, { useState, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Rocket, Users, Calendar, Trophy, Zap, ArrowRight, Check, Mail, User, School, MessageCircle } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { toast } from 'sonner';
+import {
+  ArrowRight,
+  Calendar,
+  Check,
+  ChevronDown,
+  Mail,
+  MessageCircle,
+  Rocket,
+  School,
+  Trophy,
+  User,
+  Users,
+  Zap
+} from 'lucide-react';
+
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Textarea } from '../components/ui/textarea';
+import { Label } from '../components/ui/label';
+import { Card, CardContent } from '../components/ui/card';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Card, CardContent } from "@/components/ui/card";
-import { toast } from "sonner";
+} from '../components/ui/accordion';
 
+// Floating animation component
 const FloatingElement = ({ children, delay = 0, duration = 3 }) => (
   <motion.div
     animate={{ y: [-10, 10, -10] }}
-    transition={{ duration, repeat: Infinity, delay, ease: "easeInOut" }}
+    transition={{
+      duration: duration,
+      repeat: Infinity,
+      delay: delay,
+      ease: "easeInOut"
+    }}
   >
     {children}
   </motion.div>
 );
 
-const QuestionReveal = ({ question, index }) => {
+// Scroll reveal component
+const ScrollReveal = ({ question, index }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "center center"]
   });
+  
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 1]);
   const x = useTransform(scrollYProgress, [0, 0.5], [index % 2 === 0 ? -100 : 100, 0]);
 
   return (
-    <motion.div
-      ref={ref}
+    <motion.div 
+      ref={ref} 
       style={{ opacity, x }}
       className="py-16 md:py-24"
     >
@@ -47,22 +69,22 @@ const QuestionReveal = ({ question, index }) => {
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    grade: '',
-    experience: '',
-    teamSize: '',
-    idea: ''
+    name: "",
+    email: "",
+    grade: "",
+    experience: "",
+    idea: ""
   });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const containerRef = useRef(null);
   const formRef = useRef(null);
+
   const { scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.95]);
 
-  const inspiringQuestions = [
+  const questions = [
     "Do you ever notice problems on campus that no one seems to be fixing?",
     "Ever thought, \"Why hasn't someone built an app for this yet?\"",
     "Do systems around you feel outdated, inefficient, or unfair?",
@@ -85,7 +107,7 @@ export default function Home() {
     },
     {
       question: "How do teams work?",
-      answer: "Teams can have up to 3 members. You can come with a team already formed, or we'll help you find teammates at the event. Some of the best projects come from people who just met!"
+      answer: "Teams can have 2-4 members. You can come with a team already formed, or we'll help you find teammates at the event. Some of the best projects come from people who just met!"
     },
     {
       question: "What can I build?",
@@ -102,8 +124,8 @@ export default function Home() {
   ];
 
   const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setFormData(prev => ({ ...prev, [id]: value }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -137,7 +159,6 @@ export default function Home() {
         email: "",
         grade: "",
         experience: "",
-        teamSize: "",
         idea: ""
       });
       
@@ -168,13 +189,12 @@ export default function Home() {
             className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
           >
-            <img 
-              src="/gungahacks-logo.png" 
-              alt="GungaHacks Logo" 
-              className="h-10 w-auto object-contain" 
-            />
+            <div className="w-10 h-10 bg-[#0031A7] rounded-full flex items-center justify-center">
+              <Rocket className="w-6 h-6 text-white" />
+            </div>
             <span className="text-white font-bold text-xl">GungaHacks</span>
           </motion.div>
+          
           <div className="hidden md:flex items-center gap-8">
             <a href="#about" className="text-white/70 hover:text-white transition-colors">About</a>
             <a href="#details" className="text-white/70 hover:text-white transition-colors">Details</a>
@@ -194,7 +214,7 @@ export default function Home() {
         style={{ opacity: heroOpacity, scale: heroScale }}
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
       >
-        {/* Animated Background Elements */}
+        {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div 
             className="absolute top-20 left-10 w-32 h-32 rounded-full bg-[#0031A7]/20 blur-3xl"
@@ -213,7 +233,6 @@ export default function Home() {
           />
         </div>
 
-        {/* Floating Gorilla */}
         <FloatingElement delay={0} duration={4}>
           <div className="absolute bottom-10 right-10 md:right-20 opacity-40">
             <Zap className="w-32 h-32 md:w-48 md:h-48 text-[#44b8f3]" />
@@ -227,12 +246,8 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <FloatingElement duration={5}>
-              <div className="w-28 h-28 md:w-36 md:h-36 mx-auto mb-6 flex items-center justify-center">
-                <img
-                  src="/gungahacks-logo.png"
-                  alt="GungaHacks Logo"
-                  className="w-28 h-28 md:w-36 md:h-36 object-contain"
-                />
+              <div className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 bg-gradient-to-br from-[#0031A7] to-[#44b8f3] rounded-3xl flex items-center justify-center shadow-lg shadow-[#0031A7]/50">
+                <Rocket className="w-12 h-12 md:w-16 md:h-16 text-white" />
               </div>
             </FloatingElement>
           </motion.div>
@@ -247,7 +262,7 @@ export default function Home() {
               GungaHacks
             </span>
           </motion.h1>
-          
+
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -263,12 +278,11 @@ export default function Home() {
             transition={{ delay: 0.6 }}
             className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-12"
           >
-            One week. 60-80 students. Infinite possibilities.
-            <br />
+            One week. 60-80 students. Infinite possibilities.<br/>
             Build apps that solve real campus problems.
           </motion.p>
 
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
@@ -301,15 +315,13 @@ export default function Home() {
         </motion.div>
       </motion.section>
 
-      {/* Inspiring Questions Section */}
+      {/* Questions Section */}
       <section className="py-20 px-6 relative">
         <div className="max-w-4xl mx-auto">
-          {inspiringQuestions.map((question, index) => (
-            <QuestionReveal key={index} question={question} index={index} />
+          {questions.map((q, i) => (
+            <ScrollReveal key={i} question={q} index={i} />
           ))}
         </div>
-        
-        {/* Floating gorilla accent */}
         <FloatingElement delay={1} duration={5}>
           <div className="absolute left-5 top-1/3 opacity-20 hidden lg:block">
             <MessageCircle className="w-24 h-24 text-white" />
@@ -317,7 +329,7 @@ export default function Home() {
         </FloatingElement>
       </section>
 
-      {/* Answer Section */}
+      {/* Call to Action */}
       <section className="py-20 px-6 relative overflow-hidden">
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
@@ -337,7 +349,7 @@ export default function Home() {
       {/* About Section */}
       <section id="about" className="py-32 px-6 relative">
         <div className="max-w-6xl mx-auto">
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -357,7 +369,6 @@ export default function Home() {
                 Whether it's managing stress, building connections on a busy campus, or fixing outdated systems—if you've noticed a problem, you can build the solution.
               </p>
             </div>
-            
             <div className="relative">
               <div className="bg-gradient-to-br from-[#0031A7]/30 to-[#44b8f3]/20 rounded-3xl p-8 backdrop-blur-sm border border-white/10">
                 <FloatingElement duration={4}>
@@ -375,7 +386,7 @@ export default function Home() {
                     <div className="text-white/60">Week</div>
                   </div>
                   <div>
-                    <div className="text-4xl font-bold text-[#44b8f3]">Up to 3</div>
+                    <div className="text-4xl font-bold text-[#44b8f3]">2-4</div>
                     <div className="text-white/60">Per Team</div>
                   </div>
                   <div>
@@ -400,20 +411,20 @@ export default function Home() {
           >
             Event <span className="text-[#44b8f3]">Details</span>
           </motion.h2>
-
+          
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[ 
+            {[
               { icon: Calendar, title: "When", desc: "Spring 2026", sub: "One Week" },
               { icon: Users, title: "Who", desc: "60-80 Students", sub: "PA Students Only" },
-              { icon: Trophy, title: "Prizes", desc: "$500 Worth", sub: "Tech & Tools" },
-              { icon: Zap, title: "Format", desc: "Up to 3 per team", sub: "Build & Present" }
-            ].map((item, index) => (
+              { icon: Trophy, title: "Prizes", desc: "$400 Worth", sub: "Tech & Tools" },
+              { icon: Zap, title: "Format", desc: "Teams of 2-4", sub: "Build & Present" }
+            ].map((item, i) => (
               <motion.div
-                key={index}
+                key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: i * 0.1 }}
               >
                 <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
                   <CardContent className="p-8 text-center">
@@ -442,9 +453,7 @@ export default function Home() {
           >
             Win Amazing <span className="text-[#44b8f3]">Prizes</span>
           </motion.h2>
-          <p className="text-white/60 text-center mb-16 text-lg">
-            Over $500 worth of tech gear and learning resources
-          </p>
+          <p className="text-white/60 text-center mb-16 text-lg">Over $400 worth of tech gear and learning resources</p>
 
           <div className="grid md:grid-cols-2 gap-6">
             <motion.div
@@ -523,23 +532,18 @@ export default function Home() {
           >
             Frequently Asked <span className="text-[#44b8f3]">Questions</span>
           </motion.h2>
-          <p className="text-white/60 text-center mb-16">
-            Everything you need to know about GungaHacks
-          </p>
-
+          <p className="text-white/60 text-center mb-16">Everything you need to know about GungaHacks</p>
+          
           <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
+            {faqs.map((faq, i) => (
               <motion.div
-                key={index}
+                key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
+                transition={{ delay: i * 0.05 }}
               >
-                <AccordionItem 
-                  value={`item-${index}`}
-                  className="bg-white/5 border border-white/10 rounded-2xl px-6 overflow-hidden"
-                >
+                <AccordionItem value={`item-${i}`} className="bg-white/5 border border-white/10 rounded-2xl px-6 overflow-hidden">
                   <AccordionTrigger className="text-white text-lg font-medium hover:text-[#44b8f3] transition-colors py-6 hover:no-underline">
                     {faq.question}
                   </AccordionTrigger>
@@ -558,7 +562,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0031A7]/10 to-[#0031A7]/20" />
         
         <div className="max-w-2xl mx-auto relative z-10">
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -572,9 +576,7 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Ready to <span className="text-[#44b8f3]">Build</span>?
             </h2>
-            <p className="text-white/60 text-lg">
-              Register your interest for GungaHacks Spring 2026
-            </p>
+            <p className="text-white/60 text-lg">Register your interest for GungaHacks Spring 2026</p>
           </motion.div>
 
           {submitted ? (
@@ -598,144 +600,125 @@ export default function Home() {
               </FloatingElement>
             </motion.div>
           ) : (
-              <motion.form
-                ref={formRef}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                action="https://docs.google.com/forms/d/e/1FAIpQLSeuY2t06KBrPeKs6zwaXjMjEk4qIXxjoCOiLm71Kw8UgXBq5UgXBq5A/formResponse"
-                method="POST"
-                target="hidden_iframe"
-                encType="application/x-www-form-urlencoded"
-                onSubmit={handleSubmit}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 space-y-6"
+            <motion.form
+              ref={formRef}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              action="https://docs.google.com/forms/d/e/1FAIpQLSeuY2t06KBrPeKs6zwaXjMjEk4qIXxjoCOiLm71Kw8UgXBq5A/formResponse"
+              method="POST"
+              target="hidden_iframe"
+              encType="application/x-www-form-urlencoded"
+              onSubmit={handleSubmit}
+              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 space-y-6"
+            >
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-white">Full Name *</Label>
+                <div className="relative">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                  <Input 
+                    id="name" 
+                    name="entry.1286670390" 
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="bg-white/10 border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3]" 
+                    placeholder="Your full name" 
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-white">Email *</Label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                  <Input 
+                    id="email" 
+                    name="entry.1959045542" 
+                    type="email" 
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="bg-white/10 border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3]" 
+                    placeholder="your.email@andover.edu" 
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="grade" className="text-white">Grade *</Label>
+                <div className="relative">
+                  <School className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                  <select 
+                    id="grade" 
+                    name="entry.990426861" 
+                    value={formData.grade}
+                    onChange={handleInputChange}
+                    className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
+                    required
+                  >
+                    <option value="" className="bg-[#0a0a1a]">Select your grade</option>
+                    <option value="9" className="bg-[#0a0a1a]">9th Grade (Junior)</option>
+                    <option value="10" className="bg-[#0a0a1a]">10th Grade (Lower)</option>
+                    <option value="11" className="bg-[#0a0a1a]">11th Grade (Upper)</option>
+                    <option value="12" className="bg-[#0a0a1a]">12th Grade (Senior)</option>
+                    <option value="pg" className="bg-[#0a0a1a]">Post-Graduate</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="experience" className="text-white">Coding Experience</Label>
+                <div className="relative">
+                  <Rocket className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                  <select 
+                    id="experience" 
+                    name="entry.533525692" 
+                    value={formData.experience}
+                    onChange={handleInputChange}
+                    className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
+                  >
+                    <option value="" className="bg-[#0a0a1a]">Select your experience level</option>
+                    <option value="none" className="bg-[#0a0a1a]">No experience (that's okay!)</option>
+                    <option value="beginner" className="bg-[#0a0a1a]">Beginner (some coding classes)</option>
+                    <option value="intermediate" className="bg-[#0a0a1a]">Intermediate (built a few projects)</option>
+                    <option value="advanced" className="bg-[#0a0a1a]">Advanced (comfortable building apps)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="idea" className="text-white">Any project ideas? (Optional)</Label>
+                <div className="relative">
+                  <MessageCircle className="absolute left-4 top-4 w-5 h-5 text-white/40" />
+                  <Textarea 
+                    id="idea" 
+                    name="entry.344596077" 
+                    value={formData.idea}
+                    onChange={handleInputChange}
+                    className="bg-white/10 border-white/20 text-white pl-12 min-h-[100px] rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] resize-none" 
+                    placeholder="What problems have you noticed on campus that you'd like to solve?" 
+                  />
+                </div>
+              </div>
+
+              <Button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="w-full bg-[#0031A7] hover:bg-[#0031A7]/90 text-white rounded-xl h-14 text-lg font-medium"
               >
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-white">Full Name *</Label>
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
-                    <Input
-                      id="name"
-                      name="entry.1286670390"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="bg-white/10 border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3]"
-                      placeholder="Your full name"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white">Email *</Label>
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
-                    <Input
-                      id="email"
-                      name="entry.1959045542"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="bg-white/10 border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3]"
-                      placeholder="your.email@andover.edu"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="grade" className="text-white">Grade *</Label>
-                  <div className="relative">
-                    <School className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
-                    <select
-                      id="grade"
-                      name="entry.990426861"
-                      value={formData.grade}
-                      onChange={handleInputChange}
-                      className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
-                      required
-                    >
-                      <option value="" className="bg-[#0a0a1a]">Select your grade</option>
-                      <option value="9" className="bg-[#0a0a1a]">9th Grade (Junior)</option>
-                      <option value="10" className="bg-[#0a0a1a]">10th Grade (Lower)</option>
-                      <option value="11" className="bg-[#0a0a1a]">11th Grade (Upper)</option>
-                      <option value="12" className="bg-[#0a0a1a]">12th Grade (Senior)</option>
-                      <option value="pg" className="bg-[#0a0a1a]">Post-Graduate</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="experience" className="text-white">Coding Experience</Label>
-                  <div className="relative">
-                    <Rocket className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
-                    <select
-                      id="experience"
-                      name="entry.533525692"
-                      value={formData.experience}
-                      onChange={handleInputChange}
-                      className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
-                    >
-                      <option value="" className="bg-[#0a0a1a]">Select your experience level</option>
-                      <option value="none" className="bg-[#0a0a1a]">No experience (that's okay!)</option>
-                      <option value="beginner" className="bg-[#0a0a1a]">Beginner (some coding classes)</option>
-                      <option value="intermediate" className="bg-[#0a0a1a]">Intermediate (built a few projects)</option>
-                      <option value="advanced" className="bg-[#0a0a1a]">Advanced (comfortable building apps)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="teamSize" className="text-white">Team Size</Label>
-                  <div className="relative">
-                    <Users className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
-                    <select
-                      id="teamSize"
-                      name="entry.1644260711"
-                      value={formData.teamSize}
-                      onChange={handleInputChange}
-                      className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
-                    >
-                      <option value="" className="bg-[#0a0a1a]">Select your team size</option>
-                      <option value="Just me (1 person)" className="bg-[#0a0a1a]">Just me (1 person)</option>
-                      <option value="2 people" className="bg-[#0a0a1a]">2 people</option>
-                      <option value="3 people" className="bg-[#0a0a1a]">3 people</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="idea" className="text-white">Any project ideas? (Optional)</Label>
-                  <div className="relative">
-                    <MessageCircle className="absolute left-4 top-4 w-5 h-5 text-white/40" />
-                    <Textarea
-                      id="idea"
-                      name="entry.344596077"
-                      value={formData.idea}
-                      onChange={handleInputChange}
-                      className="bg-white/10 border-white/20 text-white pl-12 min-h-[100px] rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] resize-none"
-                      placeholder="What problems have you noticed on campus that you'd like to solve?"
-                    />
-                  </div>
-                </div>
-
-                <Button 
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-[#0031A7] hover:bg-[#0031A7]/90 text-white rounded-xl h-14 text-lg font-medium"
-                >
-                  {isSubmitting ? (
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full"
-                    />
-                  ) : (
-                    <>Register Interest <ArrowRight className="ml-2 h-5 w-5" /></>
-                  )}
-                </Button>
-              </motion.form>
-            )}
+                {isSubmitting ? (
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full"
+                  />
+                ) : (
+                  <>Register Interest <ArrowRight className="ml-2 h-5 w-5" /></>
+                )}
+              </Button>
+            </motion.form>
+          )}
         </div>
       </section>
 
@@ -743,11 +726,9 @@ export default function Home() {
       <footer className="py-12 px-6 border-t border-white/10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <img 
-              src="/gungahacks-logo.png" 
-              alt="GungaHacks Logo" 
-              className="h-8 w-auto object-contain" 
-            />
+            <div className="w-8 h-8 bg-[#0031A7] rounded-full flex items-center justify-center">
+              <Rocket className="w-4 h-4 text-white" />
+            </div>
             <span className="text-white font-semibold">GungaHacks</span>
           </div>
           <p className="text-white/50 text-sm text-center md:text-left">
