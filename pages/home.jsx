@@ -677,10 +677,11 @@ export default function Home() {
                       onChange={handleInputChange}
                       className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
                     >
-                      <option value="" className="bg-[#0a0a1a]">Select your team size</option>
+                      <option value="" className="bg-[#0a0a1a]">Select your team size preference</option>
                       <option value="Just me (1 person)" className="bg-[#0a0a1a]">Just me (1 person)</option>
-                      <option value="2 people" className="bg-[#0a0a1a]">2 people</option>
-                      <option value="3 people" className="bg-[#0a0a1a]">3 people</option>
+                      <option value="Me and one other (2 people)" className="bg-[#0a0a1a]">Me and one other (2 people)</option>
+                      <option value="A full team (3 people)" className="bg-[#0a0a1a]">A full team (3 people)</option>
+                      <option value="Don't know yet" className="bg-[#0a0a1a]">Don't know yet</option>
                     </select>
                   </div>
                 </div>

@@ -47,12 +47,12 @@ const QuestionReveal = ({ question, index }) => {
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    grade: '',
-    experience: '',
-    teamSize: '',
-    hackathonExperience: ''
+    'entry.1286670390': '',
+    'entry.1959045542': '',
+    'entry.990426861': '',
+    'entry.533525692': '',
+    'entry.1644260711': '',
+    'entry.344596077': ''
   });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -102,62 +102,64 @@ export default function Home() {
   ];
 
   const handleInputChange = (e) => {
-    const { id, name, value } = e.target;
-    const key = name === 'entry.344596077' ? 'hackathonExperience' : id;
-    setFormData(prev => ({ ...prev, [key]: value }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    // Validate form before allowing submission
-    if (!formData.name || !formData.email || !formData.grade) {
-      e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData['entry.1286670390'] || !formData['entry.1959045542'] || !formData['entry.990426861']) {
       toast.error("Please fill in all required fields");
       return;
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      e.preventDefault();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData['entry.1959045542'])) {
       toast.error("Please enter a valid email address");
       return;
     }
 
     setIsSubmitting(true);
-    
-    // We allow the form to submit naturally to the hidden iframe.
-    // Since we can't detect when the iframe loads due to CORS,
-    // we use a timeout to simulate success and reset the UI.
-    setTimeout(() => {
+
+    const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeuY2t06KBrPeKs6zwaXjMjEk4qIXxjoCOiLm71Kw8UgXBq5A/formResponse";
+    const body = new FormData();
+    Object.keys(formData).forEach(key => {
+      body.append(key, formData[key]);
+    });
+
+    try {
+      await fetch(googleFormUrl, {
+        method: "POST",
+        body: body,
+        mode: "no-cors"
+      });
+
       setIsSubmitting(false);
       setSubmitted(true);
       toast.success("✅ Registration submitted! Check your email.");
       console.log("✅ Form submitted successfully");
-      
-      // Reset form
+
       setFormData({
-        name: "",
-        email: "",
-        grade: "",
-        experience: "",
-        teamSize: "",
-        hackathonExperience: ""
+        'entry.1286670390': '',
+        'entry.1959045542': '',
+        'entry.990426861': '',
+        'entry.533525692': '',
+        'entry.1644260711': '',
+        'entry.344596077': ''
       });
-      
-      // Reset success message after a delay
+
       setTimeout(() => {
         setSubmitted(false);
       }, 5000);
-    }, 1000);
+    } catch (error) {
+      setIsSubmitting(false);
+      toast.error("An error occurred while submitting the form.");
+      console.error("Form submission error:", error);
+    }
   };
 
   return (
     <div ref={containerRef} className="bg-[#0a0a1a] min-h-screen overflow-x-hidden">
-      {/* Hidden iframe for Google Form submission */}
-      <iframe 
-        name="hidden_iframe" 
-        id="hidden_iframe" 
-        style={{ display: 'none' }} 
-      />
-
       {/* Navigation */}
       <motion.nav 
         initial={{ y: -100 }}
@@ -368,7 +370,7 @@ export default function Home() {
                 </FloatingElement>
                 <div className="grid grid-cols-2 gap-6 text-center">
                   <div>
-                    <div className="text-4xl font-bold text-[#44b8f3]">Many</div>
+                    <div className="text-4xl font-bold text-[#44b8f3]">150+</div>
                     <div className="text-white/60">Participants</div>
                   </div>
                   <div>
@@ -557,7 +559,7 @@ export default function Home() {
       {/* Registration Section */}
       <section id="register" className="py-32 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0031A7]/10 to-[#0031A7]/20" />
-        
+
         <div className="max-w-2xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -584,14 +586,14 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-12 text-center"
             >
-              <motion.div 
+              <div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", delay: 0.2 }}
                 className="w-20 h-20 rounded-full bg-[#44b8f3]/20 flex items-center justify-center mx-auto mb-6"
               >
                 <Check className="w-10 h-10 text-[#44b8f3]" />
-              </motion.div>
+              </div>
               <h3 className="text-2xl font-bold text-white mb-4">You're on the list!</h3>
               <p className="text-white/60 mb-8">We'll send you updates about GungaHacks Spring 2026. Get ready to build something amazing!</p>
               <FloatingElement duration={3}>
@@ -604,10 +606,6 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                action="https://docs.google.com/forms/d/e/1FAIpQLSeuY2t06KBrPeKs6zwaXjMjEk4qIXxjoCOiLm71Kw8UgXBq5A/formResponse"
-                method="POST"
-                target="hidden_iframe"
-                encType="application/x-www-form-urlencoded"
                 onSubmit={handleSubmit}
                 className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 space-y-6"
               >
@@ -618,7 +616,7 @@ export default function Home() {
                     <Input
                       id="name"
                       name="entry.1286670390"
-                      value={formData.name}
+                      value={formData['entry.1286670390']}
                       onChange={handleInputChange}
                       className="bg-white/10 border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3]"
                       placeholder="Your full name"
@@ -635,7 +633,7 @@ export default function Home() {
                       id="email"
                       name="entry.1959045542"
                       type="email"
-                      value={formData.email}
+                      value={formData['entry.1959045542']}
                       onChange={handleInputChange}
                       className="bg-white/10 border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3]"
                       placeholder="your.email@andover.edu"
@@ -651,17 +649,17 @@ export default function Home() {
                     <select
                       id="grade"
                       name="entry.990426861"
-                      value={formData.grade}
+                      value={formData['entry.990426861']}
                       onChange={handleInputChange}
                       className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
                       required
                     >
                       <option value="" className="bg-[#0a0a1a]">Select your grade</option>
-                      <option value="9th Grade (Junior)" className="bg-[#0a0a1a]">9th Grade (Junior)</option>
-                      <option value="10th Grade (Lower)" className="bg-[#0a0a1a]">10th Grade (Lower)</option>
-                      <option value="11th Grade (Upper)" className="bg-[#0a0a1a]">11th Grade (Upper)</option>
-                      <option value="12th Grade (Senior)" className="bg-[#0a0a1a]">12th Grade (Senior)</option>
-                      <option value="Post-Graduate" className="bg-[#0a0a1a]">Post-Graduate</option>
+                      <option value="9th" className="bg-[#0a0a1a]">9th</option>
+                      <option value="10th" className="bg-[#0a0a1a]">10th</option>
+                      <option value="11th" className="bg-[#0a0a1a]">11th</option>
+                      <option value="12th" className="bg-[#0a0a1a]">12th</option>
+                      <option value="PG" className="bg-[#0a0a1a]">PG</option>
                     </select>
                   </div>
                 </div>
@@ -673,12 +671,12 @@ export default function Home() {
                     <select
                       id="experience"
                       name="entry.533525692"
-                      value={formData.experience}
+                      value={formData['entry.533525692']}
                       onChange={handleInputChange}
                       className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
                     >
                       <option value="" className="bg-[#0a0a1a]">Select your experience level</option>
-                      <option value="No experience (that's okay!)" className="bg-[#0a0a1a]">No experience (that's okay!)</option>
+                      <option value="None (That's completely fine)" className="bg-[#0a0a1a]">None (That's completely fine)</option>
                       <option value="Beginner (some coding classes)" className="bg-[#0a0a1a]">Beginner (some coding classes)</option>
                       <option value="Intermediate (built a few projects)" className="bg-[#0a0a1a]">Intermediate (built a few projects)</option>
                       <option value="Advanced (comfortable building apps)" className="bg-[#0a0a1a]">Advanced (comfortable building apps)</option>
@@ -693,7 +691,7 @@ export default function Home() {
                     <select
                       id="teamSize"
                       name="entry.1644260711"
-                      value={formData.teamSize}
+                      value={formData['entry.1644260711']}
                       onChange={handleInputChange}
                       className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
                     >
@@ -707,36 +705,22 @@ export default function Home() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-white">Have you participated in a hackathon before?</Label>
-                  <div className="flex items-center gap-x-6">
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        id="hackathon-yes"
-                        name="entry.344596077"
-                        value="Yes"
-                        checked={formData.hackathonExperience === 'Yes'}
-                        onChange={handleInputChange}
-                        className="form-radio h-4 w-4 text-[#44b8f3] bg-white/10 border-white/20 focus:ring-[#44b8f3]"
-                      />
-                      <Label htmlFor="hackathon-yes" className="text-white">Yes</Label>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        id="hackathon-no"
-                        name="entry.344596077"
-                        value="No"
-                        checked={formData.hackathonExperience === 'No'}
-                        onChange={handleInputChange}
-                        className="form-radio h-4 w-4 text-[#44b8f3] bg-white/10 border-white/20 focus:ring-[#44b8f3]"
-                      />
-                      <Label htmlFor="hackathon-no" className="text-white">No</Label>
-                    </div>
+                  <Label htmlFor="project-ideas" className="text-white">Project ideas</Label>
+                  <div className="relative">
+                    <MessageCircle className="absolute left-4 top-4 w-5 h-5 text-white/40" />
+                    <Textarea
+                      id="project-ideas"
+                      name="entry.344596077"
+                      value={formData['entry.344596077']}
+                      onChange={handleInputChange}
+                      className="bg-white/10 border-white/20 text-white pl-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3]"
+                      placeholder="Any project ideas you have..."
+                      rows="3"
+                    />
                   </div>
                 </div>
 
-                <Button 
+                <Button
                   type="submit"
                   disabled={isSubmitting}
                   className="w-full bg-[#0031A7] hover:bg-[#0031A7]/90 text-white rounded-xl h-14 text-lg font-medium"
