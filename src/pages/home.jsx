@@ -52,7 +52,7 @@ export default function Home() {
     grade: '',
     experience: '',
     teamSize: '',
-    idea: ''
+    hackathonExperience: ''
   });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -102,8 +102,9 @@ export default function Home() {
   ];
 
   const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setFormData(prev => ({ ...prev, [id]: value }));
+    const { id, name, value } = e.target;
+    const key = name === 'entry.344596077' ? 'hackathonExperience' : id;
+    setFormData(prev => ({ ...prev, [key]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -138,7 +139,7 @@ export default function Home() {
         grade: "",
         experience: "",
         teamSize: "",
-        idea: ""
+        hackathonExperience: ""
       });
       
       // Reset success message after a delay
@@ -696,26 +697,42 @@ export default function Home() {
                       onChange={handleInputChange}
                       className="w-full bg-white/10 border border-white/20 text-white pl-12 h-12 rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] appearance-none"
                     >
-                      <option value="" className="bg-[#0a0a1a]">Select your team size</option>
+                      <option value="" className="bg-[#0a0a1a]">Select your team size preference</option>
                       <option value="Just me (1 person)" className="bg-[#0a0a1a]">Just me (1 person)</option>
-                      <option value="2 people" className="bg-[#0a0a1a]">2 people</option>
-                      <option value="3 people" className="bg-[#0a0a1a]">3 people</option>
+                      <option value="Me and one other (2 people)" className="bg-[#0a0a1a]">Me and one other (2 people)</option>
+                      <option value="A full team (3 people)" className="bg-[#0a0a1a]">A full team (3 people)</option>
+                      <option value="Don't know yet" className="bg-[#0a0a1a]">Don't know yet</option>
                     </select>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="idea" className="text-white">Any project ideas? (Optional)</Label>
-                  <div className="relative">
-                    <MessageCircle className="absolute left-4 top-4 w-5 h-5 text-white/40" />
-                    <Textarea
-                      id="idea"
-                      name="entry.344596077"
-                      value={formData.idea}
-                      onChange={handleInputChange}
-                      className="bg-white/10 border-white/20 text-white pl-12 min-h-[100px] rounded-xl focus:border-[#44b8f3] focus:ring-[#44b8f3] resize-none"
-                      placeholder="What problems have you noticed on campus that you'd like to solve?"
-                    />
+                  <Label className="text-white">Have you participated in a hackathon before?</Label>
+                  <div className="flex items-center gap-x-6">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        id="hackathon-yes"
+                        name="entry.344596077"
+                        value="Yes"
+                        checked={formData.hackathonExperience === 'Yes'}
+                        onChange={handleInputChange}
+                        className="form-radio h-4 w-4 text-[#44b8f3] bg-white/10 border-white/20 focus:ring-[#44b8f3]"
+                      />
+                      <Label htmlFor="hackathon-yes" className="text-white">Yes</Label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        id="hackathon-no"
+                        name="entry.344596077"
+                        value="No"
+                        checked={formData.hackathonExperience === 'No'}
+                        onChange={handleInputChange}
+                        className="form-radio h-4 w-4 text-[#44b8f3] bg-white/10 border-white/20 focus:ring-[#44b8f3]"
+                      />
+                      <Label htmlFor="hackathon-no" className="text-white">No</Label>
+                    </div>
                   </div>
                 </div>
 
